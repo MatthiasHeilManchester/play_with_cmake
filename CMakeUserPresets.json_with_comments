@@ -16,21 +16,24 @@
     //-----------------------------------------------------------------------
     {
       // Name of the preset -- this is what you pass to cmake during
-      // the configure stage, i.e. cmake ... hierher
+      // the configure stage, i.e.
+      //
+      //     cmake -G Ninja -B build--preset joe_cool_paranoid
+      //
       "name": "joe_cool_paranoid",
 
-      // This provides a brief description, displayed when you do
+      // This provides a brief description of this preset, displayed when you do
       // cmake --list-presets
       // Can be omitted
       "displayName": "oomph-lib base presets, plus paranoia",
 
       // We inherit from the base configuration defined in oomph-lib's
       // CMakePresets.json file. Note that if you inherit from the "release"
-      // presets the assignment of any cacheVariables that would interfere with full
+      // presets, the assignment of any cacheVariables that would interfere with full
       // optimisation will be ignored!) 
       "inherits": "base",
 
-      // Here's the key to the customisation: Specify variables
+      // Here's the key to the customisation: Specify cacheVariables
       // that you would usually pass to cmake via the command line.
       // So here we enable paranoia, so configuring with
       //

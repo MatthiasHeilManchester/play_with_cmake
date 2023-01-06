@@ -5,8 +5,8 @@ if [ $# -ne 0 ] && [ $# -ne 2 ]  && [ $# -ne 4 ] ; then
     echo "Usage:"
     echo "auto_cmake.bash "
     echo "auto_cmake.bash --preset <preset_name> "
-    echo "auto_cmake.bash --commented_json_preset_file <json_file_name"
-    echo "auto_cmake.bash --preset <preset_name> --commented_json_preset_file <json_file_name"
+    echo "auto_cmake.bash --commented_json_preset_file <json_file_name>"
+    echo "auto_cmake.bash --preset <preset_name> --commented_json_preset_file <json_file_name>"
     exit 1
 fi
     
@@ -18,7 +18,7 @@ if [ $# -gt 0 ]; then
    elif [ "$1" = "--commented_json_preset_file" ]; then
        commented_json_preset_file=$2
    else
-       echo "Wrong command line argument: "$1
+       echo "Wrong command line key: "$1
        exit 1
    fi
    if [ $# -gt 2 ]; then
@@ -27,7 +27,7 @@ if [ $# -gt 0 ]; then
        elif [ "$3" = "--commented_json_preset_file" ]; then
            commented_json_preset_file=$4
        else
-           echo "Wrong command line argument: "$1
+           echo "Wrong command line key: "$3
            exit 1
        fi
    fi

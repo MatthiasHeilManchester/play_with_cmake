@@ -7,6 +7,8 @@
   // Specify version of presets (see cmake book; 3 is OK for what we do)
   "version": 3,
   
+  // Configure presets
+  //==================
   // Here's the array of presets. Each preset is defined in curly brackets,
   // they're separated by commas (being entries in the array).
   "configurePresets": [
@@ -64,5 +66,24 @@
 
 
 
+],
+// Build presets -- matches the configure ones
+//============================================
+"buildPresets": [
+    {
+     // Name of build preset
+      "name": "joe_cool_paranoid",
+      
+      // Need to specify the name of the correpsonding
+      // configure preset from which settings are
+      // important (so we know where the build directory
+      // is, say)
+      "configurePreset": "joe_cool_paranoid"
+      
+    },
+    {
+      "name": "joe_cool_non_paranoid",
+      "configurePreset": "joe_cool_non_paranoid"
+    }
 ]
 }

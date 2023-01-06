@@ -57,7 +57,27 @@ if [ "$preset_name" != "" ]; then
     preset_string="--preset "$preset_name
 fi  
 
-# Now configure/build the thing
-cmake -G Ninja -B build $preset_string
-cmake --build build
 
+
+# Two ways of configuring/building
+use_build_presets=0
+if [ $use_build_presets -eq 1 ]; then 
+
+    # Now configure/build the thing; not necessary to specify
+    # the generator or build directory since they're already
+    # defined in the presets
+    cmake  $preset_string
+    
+    # This relies no a matching build preset (with the same name)
+    # having been defined
+    cmake --build $preset_string
+
+else
+
+    # We could also do this -- the command line specifications
+    # of the build directory and the generator would overwrite
+    # those defined in the presets
+    cmake -G Ninja -B my_build $preset_string
+    cmake --build my_build
+
+fi

@@ -34,22 +34,21 @@ if [ $# -gt 0 ]; then
 fi
 
 
-
-if [ "$commented_json_preset_file" != "" ] && [ -e CMakeUserPresets.json ];  then
-    echo ""
-    echo "Warning: CMakeUserPresets.json already exists. It will be overwritten"
-    echo "by the de-commented version of $commented_json_preset_file"
-    echo " "
-    echo "Hit return to continue or abort with ^C"
-    echo " "
-    read bla
+# Create comment-stripped version of user preset json file
+if [ "$commented_json_preset_file" != "" ]; then
+    if [ -e CMakeUserPresets.json ];  then
+        echo ""
+        echo "Warning: CMakeUserPresets.json already exists. It will be overwritten"
+        echo "by the de-commented version of $commented_json_preset_file"
+        echo " "
+        echo "Hit return to continue or abort with ^C"
+        echo " "
+        read bla
+        rm -f CMakeUserPresets.json
+    fi
+    scripts/strip_comments_from_json.bash $commented_json_preset_file > CMakeUserPresets.json
 fi
 
-
-
-# Create comment-stripped version of user preset json file
-rm -f CMakeUserPresets.json
-scripts/strip_comments_from_json.bash $commented_json_preset_file > CMakeUserPresets.json
 
 
 # Do we want presets?

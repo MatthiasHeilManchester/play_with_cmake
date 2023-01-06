@@ -1,0 +1,65 @@
+// Sample json preset file with comments. Run this through
+//
+//    scripts/strip_comments_from_json.bash
+//
+// to strip out the comments.
+{
+  // Specify version of presets (see cmake book; 3 is OK for what we do)
+  "version": 3,
+  
+  // Here's the array of presets. Each preset is defined in curly brackets,
+  // they're separated by commas (being entries in the array).
+  "configurePresets": [
+
+
+    // Here's the first preset: adding paranoia to the oomph-lib base presets
+    //-----------------------------------------------------------------------
+    {
+      // Name of the preset -- this is what you pass to cmake during
+      // the configure stage, i.e. cmake ... hierher
+      "name": "joe_cool_paranoid",
+
+      // This provides a brief description, displayed when you do
+      // cmake --list-presets
+      // Can be omitted
+      "displayName": "oomph-lib base presets, plus paranoia",
+
+      // We inherit from the base configuration defined in oomph-lib's
+      // CMakePresets.json file. Note that if you inherit from the "release"
+      // presets the assignment of any cacheVariables that would interfere with full
+      // optimisation will be ignored!) 
+      "inherits": "base",
+
+      // Here's the key to the customisation: Specify variables
+      // that you would usually pass to cmake via the command line.
+      // So here we enable paranoia, so configuring with
+      //
+      //    cmake -G Ninja -B build --preset joe_cool_paranoid
+      //
+      // is equivalent to
+      // 
+      //     cmake -G Ninja -B build -DOOMPH_ENABLE_PARANOID=ON
+      //
+      "cacheVariables": {
+        "OOMPH_ENABLE_PARANOID": "ON"} // No comma here; end of entries
+    }, // End of first preset; separated from the second one by a comma
+
+
+    // Here's the second preset: switch off paranoia, otherwise inherit
+    //-----------------------------------------------------------------
+    // from the the oomph-lib base presets (so this actually does nothing
+    //------------------------------------------------------------------
+    // since paranoia is already disabled there
+    //----------------------------------------
+    {
+      "name": "joe_cool_non_paranoid",
+      "inherits": "base",
+      "displayName": "oomph-lib base presets, no paranoia",
+      "cacheVariables": {
+        "OOMPH_ENABLE_PARANOID": "OFF"}
+    }
+
+
+
+]
+}

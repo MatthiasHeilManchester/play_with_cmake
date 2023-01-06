@@ -1,0 +1,157 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 22,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_SHARED_LIBS": "OFF",
+        "OOMPH_BUILD_DEMO_DRIVERS_WITH_LIBRARY": "OFF",
+        "OOMPH_DONT_SILENCE_USELESS_WARNINGS": "OFF",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "OOMPH_ENABLE_CODE_COVERAGE": "OFF",
+        "OOMPH_ENABLE_MPI": "OFF",
+        "OOMPH_ENABLE_PARANOID": "OFF",
+        "OOMPH_ENABLE_RANGE_CHECKING": "OFF",
+        "OOMPH_TRANSITION_TO_VERSION_3": "OFF",
+        "OOMPH_USE_DEPRECATED_SUPERLU": "OFF",
+        "OOMPH_WANT_CGAL": "OFF",
+        "OOMPH_WANT_HYPRE": "OFF",
+        "OOMPH_WANT_MUMPS": "OFF",
+        "OOMPH_WANT_NLOHMANN_JSON": "OFF",
+        "OOMPH_WANT_TRILINOS": "OFF"
+      }
+    },
+    {
+      "name": "release",
+      "inherits": "base",
+      "displayName": "Release Config",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "debug",
+      "inherits": "base",
+      "displayName": "Debug Config",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "OOMPH_ENABLE_PARANOID": "ON",
+        "OOMPH_ENABLE_RANGE_CHECKING": "ON"
+      }
+    },
+    {
+      "name": "mpi",
+      "inherits": "base",
+      "displayName": "Default MPI Config",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-mpi"
+    },
+    {
+      "name": "ci-base",
+      "hidden": true,
+      "inherits": "base",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BLA_VENDOR": "OpenBLAS"
+      }
+    },
+    {
+      "name": "ci",
+      "inherits": "ci-base",
+      "displayName": "Build Config for CI/CD",
+      "cacheVariables": {
+        "OOMPH_WANT_CGAL": "ON",
+        "OOMPH_WANT_NLOHMANN_JSON": "ON",
+        "OOMPH_WANT_HYPRE": "ON",
+        "OOMPH_WANT_MUMPS": "ON",
+        "OOMPH_WANT_TRILINOS": "OFF"
+      }
+    },
+    {
+      "name": "ci-mpi",
+      "inherits": "ci-base",
+      "displayName": "MPI Build Config for CI/CD",
+      "cacheVariables": {
+        "OOMPH_ENABLE_MPI": "ON",
+        "OOMPH_WANT_CGAL": "ON",
+        "OOMPH_WANT_NLOHMANN_JSON": "ON",
+        "OOMPH_WANT_HYPRE": "ON",
+        "OOMPH_WANT_MUMPS": "ON",
+        "OOMPH_WANT_TRILINOS": "OFF"
+      }
+    },
+    {
+      "name": "ci-coverage",
+      "inherits": "ci",
+      "displayName": "Build Config for CI/CD code coverage",
+      "cacheVariables": {
+        "OOMPH_ENABLE_CODE_COVERAGE": "ON"
+      }
+    },
+    {
+      "name": "ci-mpi-coverage",
+      "inherits": "ci-mpi",
+      "displayName": "MPI Build Config for CI/CD code coverage",
+      "cacheVariables": {
+        "OOMPH_ENABLE_CODE_COVERAGE": "ON"
+      }
+    },
+    {
+      "name": "dummy"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "release",
+      "configurePreset": "release"
+    },
+    {
+      "name": "debug",
+      "configurePreset": "debug"
+    },
+    {
+      "name": "mpi",
+      "configurePreset": "mpi"
+    },
+    {
+      "name": "ci",
+      "configurePreset": "ci"
+    },
+    {
+      "name": "ci-coverage",
+      "configurePreset": "ci-coverage"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-base",
+      "hidden": true,
+      "output": {
+        "outputOnFailure": true,
+        "labelSummary": true
+      },
+      "execution": {
+        "timeout": 10000,
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "ci",
+      "configurePreset": "dummy",
+      "inherits": "test-base"
+    }
+  ]
+}
